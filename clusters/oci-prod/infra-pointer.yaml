@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/TU_USUARIO/TU_REPO.git
+    repoURL: https://github.com/alraro/Oracle-cloud-services.git
     targetRevision: HEAD
     path: infra
   destination:
