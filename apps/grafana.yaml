@@ -53,7 +53,7 @@ spec:
         fsGroup: 472
       containers:
       - name: grafana
-        image: grafana/grafana-oss:10.4.1 # Versión fijada
+        image: grafana/grafana-oss:10.4.1
         resources:
           limits:
             memory: "512Mi"
@@ -71,6 +71,10 @@ spec:
           mountPath: "/var/lib/grafana"
         ports:
         - containerPort: 3000
+      volumes:
+      - name: grafana-storage
+        persistentVolumeClaim:
+          claimName: grafana-storage
 ---
 # 6. Servicio Interno (ClusterIP, NO NodePort)
 apiVersion: v1
@@ -94,7 +98,7 @@ spec:
   entryPoints:
     - web
   routes:
-  - match: Host(`grafana.tudominio.com`)
+  - match: Host(`grafana.alfonsoramos.dev`)
     kind: Rule
     services:
     - name: grafana-service
