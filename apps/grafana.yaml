@@ -4,22 +4,7 @@ kind: ConfigMap
 metadata:
   name: grafana-config
 data:
-  GF_SECURITY_ADMIN_USER: "alfonso"
-  GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
-
----
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  name: grafana-secret
-spec:
-  encryptedData:
-    GF_SECURITY_ADMIN_PASSWORD: AgA6L9ueoJwuXoJZMvoOZ2GVRdx4ZVUgG4uCwtOF2byJXHexwZNYSyv9Kl47VjjF5kW6qfhLL2M/5AvIfSwydEBjzvckp7371cKVe5iq6NAZaa/C0n3P3NVawjGkmsXjCim19XDqtEPx/JiH2iiA987K8he3i1sVlMzGP3n2dIv4VUj3OlFd/aPtL746SVnNSBFSr3Wr+fWiUPH88ccB08Ryt0o+pIXHg0bpvu1h+wpSBsySp38i4K47qyCN3gxKx2wu3q/1wHf0RiMsr+AybYFXmd8VSPdLxg24bIi0dzRdT6y88kTnsQFHHUpT7/6nV5nI5U5v/l9cMEy3YdCsz3sFYsg6XNwDf9WhsZH8ktM9tzS6DMsbwIFIGzVEuyaZRWefs0fqmAnFVauxhE/cuZ8WPBa/r/FOlv2YSrkorKsBX/YhORqwHQ1rGdaDNXx+ZNBFbvMKhirlqgaKzQTzPBazHzzgccah1cqS9e59XUaz9PH0kA+f/ASDoTksupG2gza9aBIgUuyPtIRmS7EZekI4lnICT9wKaLRVEVFXCmLFqSXXgo13UM7vfJQFLcqzwyLXmRwcBHPMXHhUz8gnSUiRDree/HCVzWjTDJSFuHbhnTpag23iOa1bnvdTc09d9G0YOVKn+Udsq5HTNf7LzugWTmsmvCRpz7yev3IjlYErW/S1QsH3mxtzqgzuOSkgemOWY6IDHA13ffx8Rw==
-  template:
-    metadata:
-      name: grafana-secret
-    type: Opaque
-
+  example_key: example_value
 ---
 # 4. Almacenamiento
 apiVersion: v1
@@ -64,8 +49,6 @@ spec:
         envFrom:
         - configMapRef:
             name: grafana-config
-        - secretRef:
-            name: grafana-secret
         volumeMounts:
         - name: grafana-storage
           mountPath: "/var/lib/grafana"
