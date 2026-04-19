@@ -3,14 +3,15 @@ kind: Application
 metadata:
   name: traefik
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
-  project: default
+  project: platform
   source:
     chart: traefik
     repoURL: https://traefik.github.io/charts
-    targetRevision: 26.0.0 # Versión estable del chart
+    targetRevision: 26.0.0
     helm:
-      # Aquí es donde Argo CD inyecta los parámetros en el paquete
       values: |
         deployment:
           kind: DaemonSet
@@ -29,7 +30,7 @@ spec:
             protocol: TCP
   destination:
     server: https://kubernetes.default.svc
-    namespace: traefik # Argo CD creará este namespace
+    namespace: traefik
   syncPolicy:
     automated:
       prune: true
