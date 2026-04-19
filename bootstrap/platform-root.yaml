@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:alraro/Oracle-cloud-services.git
+    repoURL: https://github.com/alraro/Oracle-cloud-services.git
     targetRevision: HEAD
     path: apps/platform
     directory:
