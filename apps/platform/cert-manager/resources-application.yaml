@@ -8,7 +8,7 @@ metadata:
 spec:
   project: platform
   source:
-    repoURL: https://github.com/alraro/Oracle-cloud-services.git
+    repoURL: git@github.com:alraro/Oracle-cloud-services.git
     targetRevision: HEAD
     path: apps/services/platform/cert-manager-resources
   destination:
