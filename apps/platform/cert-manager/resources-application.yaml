@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-bootstrap
+  name: cert-manager-resources
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
 spec:
-  project: default
+  project: platform
   source:
     repoURL: git@github.com:alraro/Oracle-cloud-services.git
     targetRevision: HEAD
-    path: apps/platform
-    directory:
-      recurse: true
+    path: apps/services/platform/cert-manager-resources
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: cert-manager
   syncPolicy:
     automated:
       prune: true
@@ -21,5 +21,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ApplyOutOfSyncOnly=true
-      - PruneLast=true
       - SkipDryRunOnMissingResource=true
