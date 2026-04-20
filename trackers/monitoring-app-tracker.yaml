@@ -1,0 +1,18 @@
+project: default
+source:
+  repoURL: git@github.com:alraro/Oracle-cloud-services.git
+  path: apps/monitoring
+  targetRevision: HEAD
+  directory:
+    recurse: true
+    jsonnet: {}
+destination:
+  server: https://kubernetes.default.svc
+  namespace: monitoring
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+    enabled: true
+  syncOptions:
+    - CreateNamespace=true
