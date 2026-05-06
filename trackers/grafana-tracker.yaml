@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: minecraft-tracker
+  name: grafana-tracker
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: git@github.com:alraro/Oracle-cloud-services.git
-    path: apps/minecraft
+    path: apps/monitoring/grafana
     targetRevision: HEAD
     directory:
       recurse: true
       jsonnet: {}
   destination:
     server: https://kubernetes.default.svc
-    namespace: minecraft-server
+    namespace: grafana
   syncPolicy:
     automated:
       prune: true
