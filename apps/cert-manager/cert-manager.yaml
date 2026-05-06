@@ -1,24 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: grafana-tracker
+  name: cert-manager
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: git@github.com:alraro/Oracle-cloud-services.git
-    path: apps/monitoring/grafana
-    targetRevision: HEAD
-    directory:
-      recurse: true
-      jsonnet: {}
+    repoURL: https://charts.jetstack.io
+    chart: cert-manager
+    targetRevision: "*"
+    helm:
+      values: |
+        crds:
+          enabled: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: grafana
+    namespace: cert-manager
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-      enabled: true
     syncOptions:
       - CreateNamespace=true
