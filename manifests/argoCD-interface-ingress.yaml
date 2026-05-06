@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argoCD-interface
+  namespace: argocd
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-private
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - argoCD.private.alfonsoramos.dev
+      secretName: argoCD-interface-tls
+  rules:
+    - host: argoCD.private.alfonsoramos.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: argoCD
+                port:
+                  number: 80
