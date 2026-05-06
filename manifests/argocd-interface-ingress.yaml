@@ -13,13 +13,13 @@ spec:
         - argocd.private.alfonsoramos.dev
       secretName: argocd-interface-tls
   rules:
-    - host: argoCD.private.alfonsoramos.dev
+    - host: argocd.private.alfonsoramos.dev
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: argoCD
+                name: argocd
                 port:
                   number: 80
