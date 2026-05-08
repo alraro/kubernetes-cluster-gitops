@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager-tracker
+  name: https-certificate-tracker
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: git@github.com:alraro/Oracle-cloud-services.git
-    path: apps/cert-manager
+    path: infra/https-certificate-managing
     targetRevision: HEAD
     directory:
       recurse: true
       jsonnet: {}
   destination:
     server: https://kubernetes.default.svc
-    namespace: cert-manager
+    namespace: https-certificate-managing
   syncPolicy:
     automated:
       prune: true

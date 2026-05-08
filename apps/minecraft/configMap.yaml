@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minecraft-config
+data:
+  EULA: "TRUE"
+  TYPE: "NEOFORGE"
+  NEOFORGE_VERSION: "21.1.211"
+  VERSION: "1.21.1"
+  MEMORY: "12288M"
+  ALLOW_FLIGHT: "TRUE"
+  MAX_TICK_TIME: "-1"
+  DIFFICULTY: "hard"
+  MODE: "survival"
+  ONLINE_MODE: "FALSE"
+  ENABLE_COMMAND_BLOCK: "TRUE"
+  SPAWN_PROTECTION: "0"
+  PVP: "TRUE"
+  SERVER_NAME: "Servidor de Software"
+  LEVEL_TYPE: "minecraft:large_biomes"
+  MOTD: "    §a§l¡Server del Software! §f- §c[NeoForge 1.21.1]§r\n          §6§kaaaa§6 » §e§lFauna & Orchestra §6« §6§kaaaa"
+  PACKWIZ_URL: "https://raw.githubusercontent.com/alraro/Server-Minecraft-Software/refs/heads/develop/my-packwiz/pack.toml"
