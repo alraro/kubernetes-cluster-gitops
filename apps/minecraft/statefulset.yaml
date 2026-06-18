@@ -52,7 +52,7 @@ spec:
               memory: "8Gi"
               cpu: "2000m"
             limits:
-              memory: "12Gi"
+              memory: "16Gi"
               cpu: "3500m"
   volumeClaimTemplates:
     - metadata:
