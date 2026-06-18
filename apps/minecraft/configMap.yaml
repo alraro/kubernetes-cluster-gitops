@@ -22,4 +22,4 @@ data:
   LEVEL_TYPE: "minecraft:large_biomes"
   MOTD: "    §a§l¡Server del Software! §f- §c[NeoForge 1.21.1]§r\n          §6§kaaaa§6 » §e§lFauna & Orchestra §6« §6§kaaaa"
   ICON: "/icon.png"
-  OVERRIDE_ICON: true
+  OVERRIDE_ICON: "TRUE"
