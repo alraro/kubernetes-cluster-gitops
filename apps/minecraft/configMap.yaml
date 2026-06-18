@@ -9,7 +9,7 @@ data:
   VERSION: "1.21.1"
   MEMORY: "8192M"
   ALLOW_FLIGHT: "TRUE"
-  MAX_TICK_TIME: "60"
+  MAX_TICK_TIME: "60000"
   DIFFICULTY: "hard"
   MODE: "survival"
   ONLINE_MODE: "FALSE"
