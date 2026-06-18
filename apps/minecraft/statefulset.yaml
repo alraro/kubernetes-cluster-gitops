@@ -4,7 +4,7 @@ metadata:
   name: minecraft
 spec:
   serviceName: minecraft
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: minecraft
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: minecraft
-          image: alraro/software-modpack-fauna:2.0.0
+          image: alraro/software-modpack-fauna:2.0.1
           tty: true
           stdin: true
           envFrom:
