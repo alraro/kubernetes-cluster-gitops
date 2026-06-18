@@ -1,0 +1,1 @@
+This repository contains the state of my personal cloud homelab, deployed on kubernetes. It follows the GitOps principles, with argoCD installed on the cluster. It follows an app-of-apps pattern for automatic deployment of applications and application trackers, combining the use of public helm charts and own kubernetes manifests.
