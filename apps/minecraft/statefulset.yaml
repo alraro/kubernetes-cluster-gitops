@@ -13,6 +13,41 @@ spec:
       labels:
         app: minecraft
     spec:
+      initContainers:
+        - name: restore
+          image: itzg/mc-backup
+          command:
+            - sh
+            - -c
+            - |
+              if [ -z "$(ls -A /data 2>/dev/null)" ]; then
+                echo "Empty PVC, restoring latest backup..."
+                restic restore latest --target /tmp/restore 2>/dev/null
+                cp -a /tmp/restore/data/. /data/ 2>/dev/null || true
+                rm -rf /tmp/restore 2>/dev/null
+              fi
+              echo "Restore check complete"
+          env:
+            - name: RESTIC_REPOSITORY
+              value: "s3:https://axn9hj8nlpap.compat.objectstorage.eu-madrid-1.oraclecloud.com/server-minecraft-software-fauna-storage"
+            - name: RESTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minecraft-backup
+                  key: RESTIC_PASSWORD
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: minecraft-backup
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minecraft-backup
+                  key: AWS_SECRET_ACCESS_KEY
+          volumeMounts:
+            - name: data
+              mountPath: /data
       containers:
         - name: minecraft
           image: alraro/software-modpack-fauna:2.0.5
@@ -54,6 +89,47 @@ spec:
             limits:
               memory: "16Gi"
               cpu: "3500m"
+        - name: backup
+          image: itzg/mc-backup
+          env:
+            - name: BACKUP_INTERVAL
+              value: "24h"
+            - name: BACKUP_METHOD
+              value: "restic"
+            - name: RESTIC_REPOSITORY
+              value: "s3:https://axn9hj8nlpap.compat.objectstorage.eu-madrid-1.oraclecloud.com/server-minecraft-software-fauna-storage"
+            - name: RESTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minecraft-backup
+                  key: RESTIC_PASSWORD
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: minecraft-backup
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minecraft-backup
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: RCON_HOST
+              value: localhost
+            - name: RCON_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minecraft-rcon
+                  key: RCON_PASSWORD
+            - name: PRUNE_RESTIC_RETENTION
+              value: "--keep-daily 7"
+            - name: INITIAL_DELAY
+              value: "5m"
+            - name: TZ
+              value: Europe/Madrid
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              readOnly: true
   volumeClaimTemplates:
     - metadata:
         name: data
