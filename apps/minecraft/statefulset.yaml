@@ -67,7 +67,7 @@ spec:
               mountPath: /backups
       containers:
         - name: minecraft
-          image: alraro/software-modpack-fauna:2.0.5
+          image: alraro/software-modpack-fauna:2.1.0
           tty: true
           stdin: true
           envFrom:
