@@ -20,11 +20,14 @@ spec:
             - sh
             - -c
             - |
-              if [ -z "$(ls -A /data)" ]; then
-                echo "Empty PVC, restoring latest backup..."
-                restic restore latest --target /tmp/restore 2>/dev/null
-                cp -a /tmp/restore/data/. /data/ 2>/dev/null || true
-                rm -rf /tmp/restore
+              if [ ! -f /data/world/level.dat ]; then
+                echo "No world found, restoring from backup..."
+                restic restore latest \
+                  --path /data/world \
+                  --path /data/config \
+                  --path /data/defaultconfigs \
+                  --path /data/datapacks \
+                  --target /
               fi
               echo "Restore check complete"
           env:
@@ -124,6 +127,8 @@ spec:
               value: "--keep-daily 7"
             - name: INITIAL_DELAY
               value: "5m"
+            - name: INCLUDES
+              value: "world,config,defaultconfigs,datapacks"
             - name: TZ
               value: Europe/Madrid
           volumeMounts:
