@@ -42,19 +42,11 @@ spec:
             - |
               if [ ! -f /data/world/level.dat ]; then
                 echo "No world found, checking for backups..."
+                restic unlock 2>/dev/null || true
                 restic snapshots --latest 1 2>/dev/null || restic init 2>/dev/null
                 if restic snapshots --latest 1 2>/dev/null; then
                   echo "Restoring latest snapshot..."
-                  restic restore latest \
-                    --path /data/world \
-                    --path /data/config \
-                    --path /data/defaultconfigs \
-                    --path /data/datapacks \
-                    --path /data/ops.json \
-                    --path /data/whitelist.json \
-                    --path /data/banned-players.json \
-                    --path /data/banned-ips.json \
-                    --target /
+                  restic restore latest --target /data
                 else
                   echo "No snapshots available, server will generate new world"
                 fi
