@@ -4,7 +4,7 @@ metadata:
   name: minecraft
 spec:
   serviceName: minecraft
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: minecraft
@@ -20,11 +20,11 @@ spec:
             - sh
             - -c
             - |
-              if [ -z "$(ls -A /data 2>/dev/null)" ]; then
+              if [ -z "$(ls -A /data)" ]; then
                 echo "Empty PVC, restoring latest backup..."
                 restic restore latest --target /tmp/restore 2>/dev/null
                 cp -a /tmp/restore/data/. /data/ 2>/dev/null || true
-                rm -rf /tmp/restore 2>/dev/null
+                rm -rf /tmp/restore
               fi
               echo "Restore check complete"
           env:
