@@ -13,7 +13,27 @@ spec:
       labels:
         app: minecraft
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: software-minecraft-server-fauna
+      tolerations:
+        - operator: Exists
+      volumes:
+        - name: backup-storage
+          hostPath:
+            path: /minecraft-backups/server-software-fauna
+            type: DirectoryOrCreate
       initContainers:
+        - name: fix-backup-perms
+          image: busybox
+          command:
+            - sh
+            - -c
+            - chown -R 1000:1000 /backups
+          volumeMounts:
+            - name: backup-storage
+              mountPath: /backups
+          securityContext:
+            runAsUser: 0
         - name: restore
           image: itzg/mc-backup
           command:
@@ -21,36 +41,38 @@ spec:
             - -c
             - |
               if [ ! -f /data/world/level.dat ]; then
-                echo "No world found, restoring from backup..."
-                restic restore latest \
-                  --path /data/world \
-                  --path /data/config \
-                  --path /data/defaultconfigs \
-                  --path /data/datapacks \
-                  --target /
+                echo "No world found, checking for backups..."
+                restic snapshots --latest 1 2>/dev/null || restic init 2>/dev/null
+                if restic snapshots --latest 1 2>/dev/null; then
+                  echo "Restoring latest snapshot..."
+                  restic restore latest \
+                    --path /data/world \
+                    --path /data/config \
+                    --path /data/defaultconfigs \
+                    --path /data/datapacks \
+                    --path /data/ops.json \
+                    --path /data/whitelist.json \
+                    --path /data/banned-players.json \
+                    --path /data/banned-ips.json \
+                    --target /
+                else
+                  echo "No snapshots available, server will generate new world"
+                fi
               fi
               echo "Restore check complete"
           env:
             - name: RESTIC_REPOSITORY
-              value: "s3:https://axn9hj8nlpap.compat.objectstorage.eu-madrid-1.oraclecloud.com/server-minecraft-software-fauna-storage"
+              value: "/backups"
             - name: RESTIC_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: minecraft-backup
                   key: RESTIC_PASSWORD
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: minecraft-backup
-                  key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: minecraft-backup
-                  key: AWS_SECRET_ACCESS_KEY
           volumeMounts:
             - name: data
               mountPath: /data
+            - name: backup-storage
+              mountPath: /backups
       containers:
         - name: minecraft
           image: alraro/software-modpack-fauna:2.0.5
@@ -100,22 +122,12 @@ spec:
             - name: BACKUP_METHOD
               value: "restic"
             - name: RESTIC_REPOSITORY
-              value: "s3:https://axn9hj8nlpap.compat.objectstorage.eu-madrid-1.oraclecloud.com/server-minecraft-software-fauna-storage"
+              value: "/backups"
             - name: RESTIC_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: minecraft-backup
                   key: RESTIC_PASSWORD
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: minecraft-backup
-                  key: AWS_ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: minecraft-backup
-                  key: AWS_SECRET_ACCESS_KEY
             - name: RCON_HOST
               value: localhost
             - name: RCON_PASSWORD
@@ -128,13 +140,15 @@ spec:
             - name: INITIAL_DELAY
               value: "5m"
             - name: INCLUDES
-              value: "world,config,defaultconfigs,datapacks"
+              value: "world,config,defaultconfigs,datapacks,ops.json,whitelist.json,banned-players.json,banned-ips.json"
             - name: TZ
               value: Europe/Madrid
           volumeMounts:
             - name: data
               mountPath: /data
               readOnly: true
+            - name: backup-storage
+              mountPath: /backups
   volumeClaimTemplates:
     - metadata:
         name: data
