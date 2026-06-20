@@ -4,7 +4,7 @@ metadata:
   name: minecraft
 spec:
   serviceName: minecraft
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: minecraft
@@ -67,7 +67,7 @@ spec:
               mountPath: /backups
       containers:
         - name: minecraft
-          image: alraro/software-modpack-fauna:2.1.1
+          image: alraro/software-modpack-fauna:2.0.5
           tty: true
           stdin: true
           envFrom:
