@@ -11,8 +11,8 @@ spec:
     targetRevision: 12.7.1
     helm:
       values: |
-        adminUser: admin
-        adminPassword: "cámbiame"
+        admin:
+          existingSecret: grafana-default-admin-credentials
 
         persistence:
           enabled: true
