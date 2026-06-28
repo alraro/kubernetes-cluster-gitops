@@ -1,0 +1,14 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: n8n-enckey
+  namespace: n8n
+spec:
+  encryptedData:
+    N8N_ENCRYPTION_KEY: AgBP8uz3rZfS9bnTyFTE326C14ZYVavA7SNlD+v3K2SFBF/FLgjwxBThj88/RM0BjrlI6O4H9o32OkuCj6zKPzoM7KHS6uZUmC47yYDqKPBoX2tNsFNfGzuz2AtZtP+6DQP4vw66ROs/sZUHcjhAGxefbjMT5QJh80yVLqIC2McxbtfyAJtuq6UKOSs7//r28XagGg1i2Ly0u6lAV4LBa2zu5BL1MG8nhZ01w0HUupPbagPvmhyuwewClKimJjrSF4Q6ZXwHAMq5SpPZdVdlkxqahN2Ms/ZKpildetbxWspkodgc8pckovn5gpmuhy07w7FW9bg0hidB6G0ASkotPYv3bszK8yGbzzhof2W5Rt0+qLuqkaBHAEy0Byqm+YQ8h7u2Ty4v6iUEr5rPtP6IZVNf+ReulDGKNvE3yWXqehizekCQ3tELncwaVYauQwrxj8FKV8ge8Urji1V/mYjzy3M53HTw5P6em10I0v/h9zx+F9sE/GAQicJthcccDfieyWIn6/V7YZeqWuJzo8Eax5rCRPr8kxB6DbZucxJevB9m82PSn/FGqBvCErJPt/kvCDIYTvll2EMRFN9f5g4+XE/dxib8IBWj1L7ON6Tn944g5HUrhlGUEuqLrhNnoS9j87eqvy0kilKb+3o/YeXcCZBonkKaG/JNDU2tY4DtAH2S1i++977v2Tff3lAjEPeH7CodxwKCG0ByRXvcds4DxgWP7uCkIA3mg2P6+jFsFeJoKTMIocmvqqUn1FhNuw==
+  template:
+    metadata:
+      name: n8n-enckey
+      namespace: n8n
+    type: Opaque
