@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: inscripciones-juventud
+  namespace: inscripciones-juventud
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-private
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - inscripciones.private.alfonsoramos.dev
+      secretName: inscripciones-juventud-tls
+  rules:
+    - host: inscripciones.private.alfonsoramos.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: inscripciones-juventud
+                port:
+                  number: 80

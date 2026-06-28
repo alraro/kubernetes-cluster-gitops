@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inscripciones-juventud
+  namespace: inscripciones-juventud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inscripciones-juventud
+  template:
+    metadata:
+      labels:
+        app: inscripciones-juventud
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: inscripciones-juventud-data
+      containers:
+        - name: app
+          image: alraro/inscripciones-juventud:1.0.0
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: inscripciones-juventud-config
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inscripciones-juventud
+  namespace: inscripciones-juventud
+spec:
+  type: ClusterIP
+  selector:
+    app: inscripciones-juventud
+  ports:
+    - port: 80
+      targetPort: 5000
