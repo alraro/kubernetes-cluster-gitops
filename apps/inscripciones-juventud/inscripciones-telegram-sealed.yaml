@@ -11,5 +11,5 @@ spec:
   template:
     metadata:
       name: telegram-sealed-secret
-      namespace: default
+      namespace: inscripciones-juventud
     type: Opaque
