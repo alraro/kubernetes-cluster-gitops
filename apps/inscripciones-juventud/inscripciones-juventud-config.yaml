@@ -5,7 +5,7 @@ metadata:
   namespace: inscripciones-juventud
 data:
   INSCRIPCION_ORIGIN: "https://apps.malaga.eu"
-  INSCRIPCION_TIMEOUT: "180"
+  INSCRIPCION_TIMEOUT: "(30, 600)"
   INSCRIPCION_MAX_RETRIES: "5"
   INSCRIPCION_USER_AGENT: "Mozilla/5.0 (X11; Linux x86_64)"
   INSCRIPCION_DEFAULT_HOUR: "09:00"
