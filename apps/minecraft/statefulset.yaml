@@ -5,6 +5,7 @@ metadata:
 spec:
   serviceName: minecraft
   replicas: 1
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: minecraft

@@ -5,6 +5,7 @@ metadata:
   namespace: inscripciones-juventud
 spec:
   replicas: 1
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: inscripciones-juventud
@@ -30,6 +31,18 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /app/data
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
           resources:
             requests:
               cpu: 100m
