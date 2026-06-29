@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: minecraft-tracker
+  name: n8n-tracker
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: git@github.com:alraro/kubernetes-cluster-gitops.git
-    path: apps/minecraft
+    path: apps/n8n
     targetRevision: HEAD
     directory:
       recurse: true
       jsonnet: {}
   destination:
     server: https://kubernetes.default.svc
-    namespace: minecraft
+    namespace: n8n
   syncPolicy:
     automated:
       prune: true

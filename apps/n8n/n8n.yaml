@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://community-charts.github.io/helm-charts
+    chart: n8n
+    targetRevision: 1.24.0
+    helm:
+      values: |
+        service:
+          port: 80
+
+        ingress:
+          enabled: false
+
+        existingEncryptionKeySecret: n8n-enckey
+
+        main:
+          persistence:
+            enabled: true
+            size: 8Gi
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+
+        timezone: "Europe/Madrid"
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: n8n
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

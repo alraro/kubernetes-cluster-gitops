@@ -6,13 +6,13 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://grafana.github.io/helm-charts
+    repoURL: https://grafana-community.github.io/helm-charts
     chart: grafana
-    targetRevision: "*"
+    targetRevision: 12.7.1
     helm:
       values: |
-        adminUser: admin
-        adminPassword: "cámbiame"
+        admin:
+          existingSecret: grafana-default-admin-credentials
 
         persistence:
           enabled: true
