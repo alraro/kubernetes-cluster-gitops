@@ -20,7 +20,7 @@ spec:
             claimName: inscripciones-juventud-data
       containers:
         - name: app
-          image: alraro/inscripciones-juventud:1.2.1
+          image: alraro/inscripciones-juventud:1.2.2
           ports:
             - containerPort: 5000
           envFrom:
