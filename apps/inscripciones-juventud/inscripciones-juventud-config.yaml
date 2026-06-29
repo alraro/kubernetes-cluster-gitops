@@ -4,11 +4,13 @@ metadata:
   name: inscripciones-juventud-config
   namespace: inscripciones-juventud
 data:
-  FLASK_HOST: "0.0.0.0"
-  FLASK_PORT: "5000"
   INSCRIPCION_ORIGIN: "https://apps.malaga.eu"
   INSCRIPCION_TIMEOUT: "180"
   INSCRIPCION_MAX_RETRIES: "5"
   INSCRIPCION_USER_AGENT: "Mozilla/5.0 (X11; Linux x86_64)"
-  INSCRIPCION_EVENT_YEAR: "2026"
+  INSCRIPCION_DEFAULT_HOUR: "09:00"
+  INSCRIPCION_GRACE_HOURS: "2"
+  FLASK_HOST: "0.0.0.0"
+  FLASK_PORT: "5000"
   LOG_MAX_BUF: "2000"
+  SEND_TELEGRAM_NOTIFICATIONS: "true"

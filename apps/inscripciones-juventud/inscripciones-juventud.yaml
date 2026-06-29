@@ -19,12 +19,14 @@ spec:
             claimName: inscripciones-juventud-data
       containers:
         - name: app
-          image: alraro/inscripciones-juventud:1.1.1
+          image: alraro/inscripciones-juventud:1.2.0
           ports:
             - containerPort: 5000
           envFrom:
             - configMapRef:
                 name: inscripciones-juventud-config
+            - secretRef:
+                name: telegram-sealed-secret
           volumeMounts:
             - name: data
               mountPath: /app/data
